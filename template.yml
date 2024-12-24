@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Spring Boot 2 API - org.example::MailSender
+
+Resources:
+#  ServerlessHttpApi:
+#    Type: AWS::Serverless::HttpApi
+#    Properties:
+#      StageName: Prod
+  MailSenderFunctionNotGraalVM:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: org.example.StreamLambdaHandler::handleRequest
+      Runtime: java21
+      CodeUri: .
+      MemorySize: 200
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 30
+      Environment:
+        Variables:
+          mail_username: <SES User name>
+          mail_password: <SES Password>
+      Events:
+        ProxyResource:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: any
+
+Outputs:
+  MailSenderApiNotGraalVM:
+    Description: URL for application
+    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com'
+    Export:
+      Name: MailSenderApiNotGraalVM

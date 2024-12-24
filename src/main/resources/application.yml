@@ -1,0 +1,25 @@
+# Reduce logging level to make sure the application works with SAM local
+# https://github.com/aws/serverless-java-container/issues/134
+#logging:
+#  level:
+#    root: debug
+spring:
+  application:
+    name:
+      MailSender
+  mail:
+    host: email-smtp.us-east-2.amazonaws.com
+    port: 587
+    username: AKIATCKATBYO6G6UKCHT
+    password: BFseVizUcHbRrEk2UZ5IPYZsRk5dpqYSmRciHp6/kukA
+    protocol: smtp
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
